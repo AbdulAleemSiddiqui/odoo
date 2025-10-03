@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sales_report_brand_pdf" model="ir.actions.report">
+        <field name="name">Sales Report brand Wise</field>
+        <field name="model">sales.report.brand</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sales_report_brand.sales_report_brands</field>
+        <field name="report_file">sales_report_brand.sales_report_brands</field>
+    </record>
+</odoo>

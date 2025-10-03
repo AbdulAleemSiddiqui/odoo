@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sales_report_brands">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-size:12px">
+                    <div class="row ">
+                        <div class="col-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td style="padding: 3px;">
+                                        <strong>DATE FROM</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="str(others['date_from'])"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px;">
+                                        <strong>DATE TO</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="str(others['date_to'])"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <h3 style="background-color: #f2f2f2;color: #00509e; text-align: right; padding: 5px;">Sales Report Brand Wise</h3>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <table width="100%" style="border-collapse: collapse; margin-top: 10px;">
+                        <thead>
+                            <tr style="background-color: #00509e; color: white;">
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Sr#</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Brand</b>
+                                </th>
+                                <th style="padding: 5px; text-align: left; width:100px;">
+                                    <b>Qty </b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Return Qty</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Sale Price</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Tax</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Gross Amount</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Discount</b>
+                                </th>
+                                <th style="padding: 5px; text-align: center; width:100px;">
+                                    <b>Net Amount</b>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <t t-set="sr" t-value="1"/>
+                            <tr t-foreach="data" t-as="value">
+                                <t t-set="line" t-value="env['pos.order.line'].search([('id','=',value['line_id'])])"/>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="sr"/>
+                                    <t t-set="sr" t-value="sr + 1"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="value['brand_name']"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="value['qty']"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="line.refunded_qty"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="value['price']"/>    
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="line.price_subtotal_incl - line.price_subtotal"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="(value['qty'] * value['price']) + (line.price_subtotal_incl - line.price_subtotal)"/>
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="line.discount"/> %
+                                </td>
+                                <td style="text-align:center; padding:4px; font-weight: normal; ">
+                                    <span t-esc="line.price_subtotal_incl"/> %
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <div style="position: fixed; bottom: 10px; right: 20px; font-size: 12px; font-weight: bold;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+
+                </div>
+
+
+
+            </t>
+        </t>
+
+    </template>
+</odoo>
