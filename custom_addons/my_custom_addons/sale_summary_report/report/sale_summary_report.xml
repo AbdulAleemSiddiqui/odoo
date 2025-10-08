@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <!-- Report action -->
+        <record id="action_sale_summary_report" model="ir.actions.report">
+            <field name="name">Sales Summary Report</field>
+            <field name="model">account.move</field>
+            <field name="report_name">sale_summary_report.sale_summary_template</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="print_report_name">'adfasdfasdf Summary - %s' % (object.name or '')</field>
+        </record>
+    </data>
+</odoo>

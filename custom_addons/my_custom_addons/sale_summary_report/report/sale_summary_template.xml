@@ -1,0 +1,43 @@
+<odoo>
+    <template id="sale_summary_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <h2>Sales Summary Report</h2>
+                <p>
+                    <strong>From:</strong> <t t-esc="docs and docs[0] and docs[0].invoice_date or ''"/> -
+                    <strong>To:</strong> <t t-esc="docs and docs[-1] and docs[-1].invoice_date or ''"/>
+                </p>
+
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Invoice</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="inv">
+                            <t t-foreach="inv.invoice_line_ids" t-as="line">
+                                <tr>
+                                    <td><t t-esc="inv.partner_id.name"/></td>
+                                    <td><t t-esc="inv.name"/></td>
+                                    <td><t t-esc="inv.invoice_date"/></td>
+                                    <td><t t-esc="line.product_id.display_name"/></td>
+                                    <td class="text-right"><t t-esc="line.quantity"/></td>
+                                    <td class="text-right"><t t-esc="line.price_subtotal"/></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+
+                <t t-set="grand_total" t-value="sum(docs.mapped('amount_total'))"/>
+                <h4>Total: <t t-esc="grand_total"/></h4>
+            </div>
+        </t>
+    </template>
+</odoo>
