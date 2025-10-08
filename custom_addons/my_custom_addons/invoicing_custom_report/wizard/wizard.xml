@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoicing_custom_report_wizard" model="ir.ui.view">
+        <field name="name">Invoicing Custom Report</field>
+        <field name="model">invoicing.custom.report</field>
+        <field name="arch" type="xml">
+            <form string="Invoicing Custom Report">
+                <group>
+                    <group>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                    </group>
+
+                </group> 
+                <footer>
+                    <button name="print_report_word" type="object" string="Print PDF" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="invoicing_custom_report_action" model="ir.actions.act_window">
+        <field name="name">Invoicing Custom Report</field>
+        <field name="res_model">invoicing.custom.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+<!-- From menu -->
+<!-- 
+    <menuitem id="invoicing_custom_report_menu"
+            name="Invoicing Custom Report"
+            parent="account.menu_finance_reports"
+            action="invoicing_custom_report_action"
+            sequence="50"
+/>   -->
+
+        <!-- Add a Print Invoice button to invoice form header -->
+        <record id="account_move_form_action_print_invoice" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.print.invoice</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="%(invoicing_custom_report.invoicing_custom_report_action)d" type="action" string="Print Invoice" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+</odoo>

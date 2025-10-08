@@ -1,0 +1,64 @@
+<odoo>
+    <template id="invoicing_custom_report_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <h2>Invoicing Summary Report</h2>
+                <p>
+                    <strong>From:</strong> <t t-esc="str(others['date_from'])"/> -
+                    <strong>To:</strong> <t t-esc="str(others['date_to'])"/>
+                </p>
+
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>S. #</th>
+                            <th>Inv Date</th>
+                            <th>Inv #</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Exclusive Amount</th>
+                            <th>S.Tax</th>
+                            <th>Further Tax</th>
+                            <th>Adv. Tax</th>
+                            <th>Inclusive Amount</th>
+                            <th>Discount</th>
+                            <th>Net Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="counter" t-value="1"/>
+                        <t t-foreach="data" t-as="inv">
+                            <t t-foreach="inv.invoice_line_ids" t-as="line">
+                                <!-- Compute taxes -->
+                                <t t-set="taxes" t-value="line.tax_ids.compute_all(line.price_unit, inv.currency_id, line.quantity, product=line.product_id, partner=inv.partner_id)"/>
+                                <t t-set="s_tax" t-value="sum([t['amount'] for t in taxes['taxes'] if t['name'] == 'S.Tax'])"/>
+                                <t t-set="further_tax" t-value="sum([t['amount'] for t in taxes['taxes'] if t['name'] == 'Further Tax'])"/>
+                                <t t-set="adv_tax" t-value="sum([t['amount'] for t in taxes['taxes'] if t['name'] == 'Adv. Tax'])"/>
+                                <t t-set="exclusive_amount" t-value="line.price_subtotal"/>
+                                <t t-set="inclusive_amount" t-value="line.price_total"/>
+                                <t t-set="discount" t-value="line.price_unit * line.quantity * (line.discount/100)"/>
+                                <t t-set="net_amount" t-value="exclusive_amount + s_tax + further_tax + adv_tax"/>
+
+                                <tr>
+                                    <td><t t-esc="counter"/></td>
+                                    <td><t t-esc="inv.invoice_date"/></td>
+                                    <td><t t-esc="inv.name"/></td>
+                                    <td><t t-esc="line.product_id.display_name"/></td>
+                                    <td class="text-right"><t t-esc="line.quantity"/></td>
+                                    <td class="text-right"><t t-esc="exclusive_amount"/></td>
+                                    <td class="text-right"><t t-esc="s_tax"/></td>
+                                    <td class="text-right"><t t-esc="further_tax"/></td>
+                                    <td class="text-right"><t t-esc="adv_tax"/></td>
+                                    <td class="text-right"><t t-esc="inclusive_amount"/></td>
+                                    <td class="text-right"><t t-esc="discount"/></td>
+                                    <td class="text-right"><t t-esc="net_amount"/></td>
+                                </tr>
+                                <t t-set="counter" t-value="counter + 1"/>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
