@@ -30,16 +30,16 @@
 
 
 <!-- From menu -->
-<!-- 
+
     <menuitem id="invoicing_custom_report_menu"
-            name="Invoicing Custom Report"
-            parent="account.menu_finance_reports"
+            name="Sales Report"
+            parent="sale.menu_sale_report"
             action="invoicing_custom_report_action"
             sequence="50"
-/>   -->
+/>  
 
         <!-- Add a Print Invoice button to invoice form header -->
-        <record id="account_move_form_action_print_invoice" model="ir.ui.view">
+        <!-- <record id="account_move_form_action_print_invoice" model="ir.ui.view">
             <field name="name">account.move.form.inherit.print.invoice</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
@@ -48,5 +48,5 @@
                     <button name="%(invoicing_custom_report.invoicing_custom_report_action)d" type="action" string="Print Invoice" class="oe_highlight"/>
                 </xpath>
             </field>
-        </record>
+        </record> -->
 </odoo>
